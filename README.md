@@ -42,14 +42,14 @@ $EDITOR config/callevision.yaml   # set broker host, credentials, paths
 Publish the example pages to MQTT so the bridge populates `runtime/pages/`:
 
 ```bash
-MQTT_HOST=192.168.1.50 MQTT_USER=callevision MQTT_PASS=changeme \
+MQTT_HOST=<broker-ip> MQTT_USER=<username> MQTT_PASS=<password> \
   scripts/publish-examples.sh
 ```
 
 Or publish a single page manually:
 
 ```bash
-mosquitto_pub -h 192.168.1.50 -u callevision -P changeme \
+mosquitto_pub -h <broker-ip> -u <username> -P <password> \
   -t callevision/pages/110/raw -r \
   -f pages/examples/P110.tti
 ```
@@ -69,7 +69,7 @@ PYTHONPATH=src python -m callevision.bridge /path/to/callevision.yaml
 Send an empty retained message to remove a page:
 
 ```bash
-mosquitto_pub -h 192.168.1.50 -u callevision -P changeme \
+mosquitto_pub -h <broker-ip> -u <username> -P <password> \
   -t callevision/pages/110/raw -r -n
 ```
 
