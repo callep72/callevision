@@ -1,0 +1,12 @@
+mqtt:
+  host: 192.168.1.50
+  port: 1883
+  username: callevision
+  password: changeme
+  client_id: callevision-bridge
+
+paths:
+  runtime_pages: /home/calle/projects/callevision/pages
+
+teletext:
+  service_name: callevision-teletext
