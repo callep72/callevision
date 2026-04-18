@@ -1,0 +1,11 @@
+PN,12000
+DE,edit.tf
+PS,8000
+SC,3F7F
+OL,4,        B    MCALLEVISION               
+OL,8,          * Inrikes        110          
+OL,9,          * Utrikes        150          
+OL,10,          * Teknik         200          
+OL,11,          * Historia       300          
+OL,12,          * Home Assistant 500          
+OL,13,          * Lokaltrafik    600          
