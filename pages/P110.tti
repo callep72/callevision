@@ -1,0 +1,25 @@
+DE,Callevision test page
+DS,callevision
+SP,pages/P110.tti
+CT,8,C
+PN,11000
+SC,0000
+PS,8000
+RE,0
+OL,1,AAP110 CALLEVISION              %a%a MON 18 APR%g
+OL,3,CDValkommen till Callevision
+OL,5,AGEn enkel text-tv-brygga som tar
+OL,6,AGinnehall fran MQTT och sander
+OL,7,AGdet som riktig text-tv via
+OL,8,AGkompositutgangen.
+OL,10,BFHARDVARA
+OL,11,AGRaspberry Pi 1 Model B
+OL,12,AG512 MB RAM, ARMv6 CPU
+OL,13,AGKompositutgang till SCART
+OL,14,AGBang och Olufsen MX 4002
+OL,16,BFSTATUS
+OL,17,ACDetta ar en testsida.
+OL,18,ACHela kedjan verifieras.
+OL,20,BEEtappmal 2: VBIT2 + statisk TTI
+OL,22,AARott=Index Gront=Status Gult=Info Bla=Nasta
+FL,100,199,120,111
