@@ -9,8 +9,18 @@ the page updates on screen.
 
 The bridge subscribes to `callevision/pages/+/raw` on an MQTT broker.
 When a retained or live message arrives with a TTI payload, it writes
-`P{page}.tti` to the pages directory and restarts VBIT2 to pick up the change.
+`P{page}.tti` to `runtime/pages/` and restarts VBIT2 to pick up the change.
 An empty payload deletes the corresponding file.
+
+MQTT retained messages are the source of truth. Deleting `runtime/pages/`
+and restarting the bridge restores everything from the broker.
+
+## Directory layout
+
+| Path | Purpose |
+|------|---------|
+| `pages/examples/` | Git-tracked example pages — inspiration and starting points |
+| `runtime/pages/` | Where VBIT2 reads; written by the bridge from MQTT (gitignored) |
 
 ## Running the bridge
 
@@ -27,7 +37,24 @@ cp config/callevision.yaml.example config/callevision.yaml
 $EDITOR config/callevision.yaml   # set broker host, credentials, paths
 ```
 
-### 3. Start the bridge
+### 3. Bootstrap runtime pages (first run)
+
+Publish the example pages to MQTT so the bridge populates `runtime/pages/`:
+
+```bash
+MQTT_HOST=192.168.1.50 MQTT_USER=callevision MQTT_PASS=changeme \
+  scripts/publish-examples.sh
+```
+
+Or publish a single page manually:
+
+```bash
+mosquitto_pub -h 192.168.1.50 -u callevision -P changeme \
+  -t callevision/pages/110/raw -r \
+  -f pages/examples/P110.tti
+```
+
+### 4. Start the bridge
 
 ```bash
 scripts/run-bridge.sh
@@ -35,14 +62,6 @@ scripts/run-bridge.sh
 PYTHONPATH=src python -m callevision.bridge
 # or with an explicit config path:
 PYTHONPATH=src python -m callevision.bridge /path/to/callevision.yaml
-```
-
-## Publishing a page
-
-```bash
-mosquitto_pub -h 192.168.1.50 -u callevision -P changeme \
-  -t callevision/pages/110/raw -r \
-  -f pages/P110.tti
 ```
 
 ## Deleting a page
@@ -68,4 +87,4 @@ PYTHONPATH=src python -m pytest tests/
 
 ## Status
 
-Milestone 1 complete: MQTT-to-TTI bridge (raw variant).
+Milestone 3 complete: MQTT bridge working end-to-end.
