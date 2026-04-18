@@ -6,7 +6,7 @@ mqtt:
   client_id: callevision-bridge
 
 paths:
-  runtime_pages: /home/calle/projects/callevision/pages
+  runtime_pages: /home/calle/projects/callevision/runtime/pages
 
 teletext:
   service_name: callevision-teletext

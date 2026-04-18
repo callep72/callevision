@@ -15,7 +15,7 @@ _DEFAULTS: dict[str, Any] = {
         "client_id": "callevision-bridge",
     },
     "paths": {
-        "runtime_pages": str(Path(__file__).parent.parent.parent / "pages"),
+        "runtime_pages": str(Path(__file__).parent.parent.parent / "runtime" / "pages"),
     },
     "teletext": {
         "service_name": "callevision-teletext",

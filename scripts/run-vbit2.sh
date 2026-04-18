@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-PAGES_DIR="/home/calle/projects/callevision/pages"
+PAGES_DIR="/home/calle/projects/callevision/runtime/pages"
 VBIT2_DIR="/home/calle/projects/vbit2"
 TELETEXT_BIN="/home/calle/projects/raspi-teletext/teletext"
 

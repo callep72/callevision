@@ -178,6 +178,9 @@ cython_debug/
 # Callevision local config (contains credentials)
 config/callevision.yaml
 
+# Runtime-generated pages (written by bridge from MQTT; source of truth is the broker)
+runtime/
+
 # Abstra
 # Abstra is an AI-powered process automation framework.
 # Ignore directories containing user credentials, local state, and settings.
