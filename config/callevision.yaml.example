@@ -7,6 +7,7 @@ mqtt:
 
 paths:
   runtime_pages: /home/calle/projects/callevision/runtime/pages
+  templates: /home/calle/projects/callevision/templates
 
 teletext:
   service_name: callevision-teletext

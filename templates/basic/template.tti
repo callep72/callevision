@@ -1,0 +1,15 @@
+PN,{_page}00
+DE,{title}
+DS,callevision
+OL,1,{title:<40}
+OL,3,{body_1:<40}
+OL,4,{body_2:<40}
+OL,5,{body_3:<40}
+OL,6,{body_4:<40}
+OL,7,{body_5:<40}
+OL,8,{body_6:<40}
+OL,9,{body_7:<40}
+OL,10,{body_8:<40}
+OL,11,{body_9:<40}
+OL,12,{body_10:<40}
+OL,24,{footer:<40}

@@ -1,7 +1,7 @@
-"""MQTT-to-Teletext bridge — raw TTI variant."""
+"""MQTT-to-Teletext bridge — raw TTI and JSON template variant."""
 
+import json
 import logging
-import os
 import subprocess
 import sys
 from pathlib import Path
@@ -9,6 +9,7 @@ from pathlib import Path
 import paho.mqtt.client as mqtt
 
 from . import config as cfg
+from . import templates
 from . import tti
 
 logging.basicConfig(
@@ -22,16 +23,25 @@ RAW_SUFFIX = "/raw"
 PAGE_RANGE = range(100, 900)
 
 
-def _page_from_topic(topic: str) -> int | None:
-    """Extract page number from callevision/pages/{page}/raw."""
-    if not topic.startswith(TOPIC_PREFIX) or not topic.endswith(RAW_SUFFIX):
+def _parse_topic(topic: str) -> tuple[int, bool] | None:
+    """Return (page, is_raw) or None if topic doesn't match expected patterns."""
+    if not topic.startswith(TOPIC_PREFIX):
         return None
-    middle = topic[len(TOPIC_PREFIX):-len(RAW_SUFFIX)]
+    rest = topic[len(TOPIC_PREFIX):]
+
+    if rest.endswith(RAW_SUFFIX):
+        middle = rest[: -len(RAW_SUFFIX)]
+        is_raw = True
+    else:
+        middle = rest
+        is_raw = False
+
     try:
         page = int(middle)
     except ValueError:
         return None
-    return page if page in PAGE_RANGE else None
+
+    return (page, is_raw) if page in PAGE_RANGE else None
 
 
 def _reload_service(service_name: str) -> None:
@@ -46,33 +56,82 @@ def _reload_service(service_name: str) -> None:
         log.error("Failed to restart %s: %s", service_name, exc.stderr.decode().strip())
 
 
+def _handle_raw(page: int, payload: str, topic: str, dest: Path, userdata: dict) -> None:
+    if not tti.validate(payload):
+        log.warning("Payload on %s does not look like TTI, ignoring", topic)
+        return
+
+    payload, mismatch = tti.rewrite_pn(payload, page)
+    if mismatch:
+        log.warning("PN mismatch on %s; rewrote to %d (topic wins)", topic, page)
+
+    userdata["raw_pages"].add(page)
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    dest.write_text(payload, encoding="utf-8")
+    log.info("Wrote %s (raw)", dest.name)
+    _reload_service(userdata["service_name"])
+
+
+def _handle_json(page: int, payload: str, topic: str, dest: Path, userdata: dict) -> None:
+    if page in userdata["raw_pages"]:
+        log.warning("Page %d has raw content; ignoring JSON on %s", page, topic)
+        return
+
+    try:
+        data = json.loads(payload)
+    except json.JSONDecodeError as exc:
+        log.warning("Invalid JSON on %s: %s", topic, exc)
+        return
+
+    for key in ("v", "template", "fields"):
+        if key not in data:
+            log.warning("JSON on %s missing required key '%s', ignoring", topic, key)
+            return
+
+    if data["v"] != 1:
+        log.warning("Unsupported JSON version %r on %s, ignoring", data["v"], topic)
+        return
+
+    rendered = templates.render(userdata["templates_dir"], data["template"], page, data["fields"])
+    if rendered is None:
+        return
+
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    dest.write_text(rendered, encoding="utf-8")
+    log.info("Wrote %s (json template=%s)", dest.name, data["template"])
+    _reload_service(userdata["service_name"])
+
+
 def _on_connect(client: mqtt.Client, userdata: dict, flags, rc, properties=None) -> None:
     if rc != 0:
         log.error("MQTT connect failed, rc=%d", rc)
         return
     log.info("Connected to MQTT broker")
     client.subscribe("callevision/pages/+/raw")
-    log.info("Subscribed to callevision/pages/+/raw")
+    client.subscribe("callevision/pages/+")
+    log.info("Subscribed to callevision/pages/+/raw and callevision/pages/+")
 
 
 def _on_message(client: mqtt.Client, userdata: dict, msg: mqtt.MQTTMessage) -> None:
     topic: str = msg.topic
     payload_bytes: bytes = msg.payload
 
-    page = _page_from_topic(topic)
-    if page is None:
+    parsed = _parse_topic(topic)
+    if parsed is None:
         log.warning("Ignoring message on unexpected topic: %s", topic)
         return
 
+    page, is_raw = parsed
     pages_dir: Path = userdata["pages_dir"]
-    service_name: str = userdata["service_name"]
     dest: Path = pages_dir / f"P{page}.tti"
 
     if not payload_bytes:
+        if is_raw:
+            userdata["raw_pages"].discard(page)
         if dest.exists():
             dest.unlink()
             log.info("Deleted %s (empty payload)", dest.name)
-            _reload_service(service_name)
+            _reload_service(userdata["service_name"])
         else:
             log.info("Empty payload for page %d, file already absent", page)
         return
@@ -83,18 +142,10 @@ def _on_message(client: mqtt.Client, userdata: dict, msg: mqtt.MQTTMessage) -> N
         log.warning("Non-UTF-8 payload on %s, ignoring", topic)
         return
 
-    if not tti.validate(payload):
-        log.warning("Payload on %s does not look like TTI, ignoring", topic)
-        return
-
-    payload, mismatch = tti.rewrite_pn(payload, page)
-    if mismatch:
-        log.warning("PN mismatch on %s; rewrote to %d (topic wins)", topic, page)
-
-    pages_dir.mkdir(parents=True, exist_ok=True)
-    dest.write_text(payload, encoding="utf-8")
-    log.info("Wrote %s", dest.name)
-    _reload_service(service_name)
+    if is_raw:
+        _handle_raw(page, payload, topic, dest, userdata)
+    else:
+        _handle_json(page, payload, topic, dest, userdata)
 
 
 def run(config_path: str | Path) -> None:
@@ -102,9 +153,15 @@ def run(config_path: str | Path) -> None:
 
     mqtt_conf = conf["mqtt"]
     pages_dir = Path(conf["paths"]["runtime_pages"])
+    templates_dir = Path(conf["paths"]["templates"])
     service_name = conf["teletext"]["service_name"]
 
-    userdata = {"pages_dir": pages_dir, "service_name": service_name}
+    userdata = {
+        "pages_dir": pages_dir,
+        "templates_dir": templates_dir,
+        "service_name": service_name,
+        "raw_pages": set(),
+    }
 
     client = mqtt.Client(
         client_id=mqtt_conf["client_id"],

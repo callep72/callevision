@@ -16,6 +16,7 @@ _DEFAULTS: dict[str, Any] = {
     },
     "paths": {
         "runtime_pages": str(Path(__file__).parent.parent.parent / "runtime" / "pages"),
+        "templates": str(Path(__file__).parent.parent.parent / "templates"),
     },
     "teletext": {
         "service_name": "callevision-teletext",

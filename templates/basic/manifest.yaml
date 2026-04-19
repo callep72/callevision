@@ -1,0 +1,51 @@
+name: basic
+description: Simple page with title and body lines
+fields:
+  title:
+    type: string
+    max_length: 36
+    required: true
+  body_1:
+    type: string
+    max_length: 40
+    required: false
+  body_2:
+    type: string
+    max_length: 40
+    required: false
+  body_3:
+    type: string
+    max_length: 40
+    required: false
+  body_4:
+    type: string
+    max_length: 40
+    required: false
+  body_5:
+    type: string
+    max_length: 40
+    required: false
+  body_6:
+    type: string
+    max_length: 40
+    required: false
+  body_7:
+    type: string
+    max_length: 40
+    required: false
+  body_8:
+    type: string
+    max_length: 40
+    required: false
+  body_9:
+    type: string
+    max_length: 40
+    required: false
+  body_10:
+    type: string
+    max_length: 40
+    required: false
+  footer:
+    type: string
+    max_length: 40
+    required: false
