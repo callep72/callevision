@@ -162,17 +162,20 @@ class TestWelcomeTemplate:
         assert "\x1bC" in lines["16"]  # ESC C = alpha yellow
         assert "\x1bD" in lines["17"]  # ESC D = alpha blue
 
-    def test_green_background_band_header(self):
+    def test_white_text_header(self):
         result = self._render()
         body = self._ol(result, 1)
-        assert body[:2] == "\x1bB"   # ESC B = green text
-        assert body[2:4] == "\x1b]"  # ESC ] = new background
+        assert body[:2] == "\x1bG"   # ESC G = white text, black background
 
-    def test_green_background_band_footer(self):
+    def test_mosaic_band_row2(self):
         result = self._render()
-        body = self._ol(result, 24)
-        assert body[:2] == "\x1bB"   # ESC B = green text
-        assert body[2:4] == "\x1b]"  # ESC ] = new background
+        body = self._ol(result, 2)
+        assert body == "\x1bR" + "\x7f" * 40
+
+    def test_mosaic_band_row23(self):
+        result = self._render()
+        body = self._ol(result, 23)
+        assert body == "\x1bR" + "\x7f" * 40
 
     def test_optional_banner_date_absent(self):
         fields = dict(WELCOME_FIELDS)
@@ -192,19 +195,19 @@ class TestWelcomeTemplate:
     def test_header_row_width(self):
         result = self._render()
         body = self._ol(result, 1)
-        # 3 ESC-pairs (6 chars) + 29 banner_text + 8 banner_date = 43
-        assert len(body) == 43
+        # 1 ESC-pair (2 chars) + 31 banner_text + 8 banner_date = 41
+        assert len(body) == 41
 
     def test_double_height_row_width(self):
         result = self._render()
         body = self._ol(result, 7)
-        # 2 ESC-pairs (4 chars) + 38 text = 42
+        # 2 ESC-pairs (4 chars) + 13 spaces + 12 title + 13 spaces = 42
         assert len(body) == 42
 
-    def test_footer_row_width(self):
+    def test_mosaic_band_row_width(self):
         result = self._render()
-        body = self._ol(result, 24)
-        # 2 ESC-pairs (4 chars) + 38 spaces = 42
+        body = self._ol(result, 2)
+        # ESC R (2 chars) + 40 mosaic cells = 42
         assert len(body) == 42
 
 
