@@ -97,7 +97,7 @@ def _handle_json(page: int, payload: str, topic: str, dest: Path, userdata: dict
         return
 
     dest.parent.mkdir(parents=True, exist_ok=True)
-    dest.write_text(rendered, encoding="utf-8")
+    dest.write_bytes(rendered.encode("utf-8"))
     log.info("Wrote %s (json template=%s)", dest.name, data["template"])
     _reload_service(userdata["service_name"])
 

@@ -115,36 +115,37 @@ class TestWelcomeTemplate:
         tdir = project_root / "templates"
         return templates.render(tdir, "welcome", 100, fields or WELCOME_FIELDS)
 
+    def _ol(self, result, row):
+        """Return the body of OL,row line with trailing CR stripped."""
+        prefix = f"OL,{row},"
+        line = next(l for l in result.split("\n") if l.startswith(prefix))
+        return line[len(prefix):].rstrip("\r")
+
     def test_renders_without_error(self):
         result = self._render()
         assert result is not None
 
     def test_page_number(self):
         result = self._render()
-        assert "PN,10000\n" in result
+        assert "PN,10000\r\n" in result
 
     def test_fasttext_links(self):
         result = self._render()
-        assert "FL,200,300,400,500\n" in result
+        assert "FL,200,300,400,500\r\n" in result
 
     def test_banner_text_in_header(self):
         result = self._render()
-        # Banner row (OL,1) should contain the banner_text
-        ol1 = next(l for l in result.split("\n") if l.startswith("OL,1,"))
-        assert "CALLEVISION" in ol1
+        assert "CALLEVISION" in self._ol(result, 1)
 
     def test_banner_date_in_header(self):
         result = self._render()
-        ol1 = next(l for l in result.split("\n") if l.startswith("OL,1,"))
-        assert "19 APRIL" in ol1
+        assert "19 APRIL" in self._ol(result, 1)
 
     def test_title_in_double_height_row(self):
         result = self._render()
-        ol7 = next(l for l in result.split("\n") if l.startswith("OL,7,"))
-        assert "CALLEVISION" in ol7
-        # Must start with double-height control code
-        body = ol7[len("OL,7,"):]
-        assert body[0] == "\r"  # \x0D = double height
+        body = self._ol(result, 7)
+        assert "CALLEVISION" in body
+        assert body[:2] == "\x1bM"  # ESC M = double height
 
     def test_menu_labels_present(self):
         result = self._render()
@@ -156,54 +157,55 @@ class TestWelcomeTemplate:
     def test_menu_rows_have_color_codes(self):
         result = self._render()
         lines = {l.split(",")[1]: l for l in result.split("\n") if l.startswith("OL,")}
-        # Red bullet (row 14)
-        assert "\x01" in lines["14"]
-        # Green bullet (row 15)
-        assert "\x02" in lines["15"]
-        # Yellow bullet (row 16)
-        assert "\x03" in lines["16"]
-        # Blue bullet (row 17)
-        assert "\x04" in lines["17"]
+        assert "\x1bA" in lines["14"]  # ESC A = alpha red
+        assert "\x1bB" in lines["15"]  # ESC B = alpha green
+        assert "\x1bC" in lines["16"]  # ESC C = alpha yellow
+        assert "\x1bD" in lines["17"]  # ESC D = alpha blue
 
     def test_green_background_band_header(self):
         result = self._render()
-        ol1 = next(l for l in result.split("\n") if l.startswith("OL,1,"))
-        body = ol1[len("OL,1,"):]
-        assert body[0] == "\x02"   # green text
-        assert body[1] == "\x1d"   # new background
+        body = self._ol(result, 1)
+        assert body[:2] == "\x1bB"   # ESC B = green text
+        assert body[2:4] == "\x1b]"  # ESC ] = new background
 
     def test_green_background_band_footer(self):
         result = self._render()
-        ol24 = next(l for l in result.split("\n") if l.startswith("OL,24,"))
-        body = ol24[len("OL,24,"):]
-        assert body[0] == "\x02"   # green text
-        assert body[1] == "\x1d"   # new background
+        body = self._ol(result, 24)
+        assert body[:2] == "\x1bB"   # ESC B = green text
+        assert body[2:4] == "\x1b]"  # ESC ] = new background
 
     def test_optional_banner_date_absent(self):
         fields = dict(WELCOME_FIELDS)
         del fields["banner_date"]
         result = self._render(fields)
         assert result is not None
-        # Header row should still render (date omitted = padded with spaces)
         assert "OL,1," in result
+
+    def test_crlf_line_endings(self):
+        result = self._render()
+        assert result is not None
+        # After splitting on CRLF, no line should contain a bare LF
+        lines = result.split("\r\n")
+        assert all("\n" not in l for l in lines)
+        assert len(lines) > 5
 
     def test_header_row_width(self):
         result = self._render()
-        ol1 = next(l for l in result.split("\n") if l.startswith("OL,1,"))
-        body = ol1[len("OL,1,"):]
-        assert len(body) == 40
+        body = self._ol(result, 1)
+        # 3 ESC-pairs (6 chars) + 29 banner_text + 8 banner_date = 43
+        assert len(body) == 43
 
     def test_double_height_row_width(self):
         result = self._render()
-        ol7 = next(l for l in result.split("\n") if l.startswith("OL,7,"))
-        body = ol7[len("OL,7,"):]
-        assert len(body) == 40
+        body = self._ol(result, 7)
+        # 2 ESC-pairs (4 chars) + 38 text = 42
+        assert len(body) == 42
 
     def test_footer_row_width(self):
         result = self._render()
-        ol24 = next(l for l in result.split("\n") if l.startswith("OL,24,"))
-        body = ol24[len("OL,24,"):]
-        assert len(body) == 40
+        body = self._ol(result, 24)
+        # 2 ESC-pairs (4 chars) + 38 spaces = 42
+        assert len(body) == 42
 
 
 class TestBridgeJsonHandling:

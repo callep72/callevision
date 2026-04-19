@@ -3,11 +3,11 @@ PN,{_page}00
 PS,8000
 SC,0000
 FL,200,300,400,500
-OL,1,{banner_text:<29}{banner_date:>8}
-OL,7,{title:^38}
-OL,8,
-OL,14,     {menu_1_label}
-OL,15,     {menu_2_label}
-OL,16,     {menu_3_label}
-OL,17,     {menu_4_label}
-OL,24,                                      
+OL,1,B]G{banner_text:<29}{banner_date:>8}
+OL,7,MB{title:^38}
+OL,8,                                        
+OL,14,A*G {menu_1_label:<36}
+OL,15,B*G {menu_2_label:<36}
+OL,16,C*G {menu_3_label:<36}
+OL,17,D*G {menu_4_label:<36}
+OL,24,B]                                      
