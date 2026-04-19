@@ -1,0 +1,13 @@
+DE,{banner_text}
+PN,{_page}00
+PS,8000
+SC,0000
+FL,200,300,400,500
+OL,1,{banner_text:<29}{banner_date:>8}
+OL,7,{title:^38}
+OL,8,
+OL,14,     {menu_1_label}
+OL,15,     {menu_2_label}
+OL,16,     {menu_3_label}
+OL,17,     {menu_4_label}
+OL,24,                                      

@@ -98,6 +98,114 @@ class TestManifestLoading:
         assert "DE,Test\n" in result
 
 
+WELCOME_FIELDS = {
+    "title": "CALLEVISION",
+    "banner_text": "CALLEVISION",
+    "banner_date": "19 APRIL",
+    "menu_1_label": "NYHETER",
+    "menu_2_label": "HEM",
+    "menu_3_label": "INFO",
+    "menu_4_label": "INDEX",
+}
+
+
+class TestWelcomeTemplate:
+    def _render(self, fields=None):
+        project_root = Path(__file__).parent.parent
+        tdir = project_root / "templates"
+        return templates.render(tdir, "welcome", 100, fields or WELCOME_FIELDS)
+
+    def test_renders_without_error(self):
+        result = self._render()
+        assert result is not None
+
+    def test_page_number(self):
+        result = self._render()
+        assert "PN,10000\n" in result
+
+    def test_fasttext_links(self):
+        result = self._render()
+        assert "FL,200,300,400,500\n" in result
+
+    def test_banner_text_in_header(self):
+        result = self._render()
+        # Banner row (OL,1) should contain the banner_text
+        ol1 = next(l for l in result.split("\n") if l.startswith("OL,1,"))
+        assert "CALLEVISION" in ol1
+
+    def test_banner_date_in_header(self):
+        result = self._render()
+        ol1 = next(l for l in result.split("\n") if l.startswith("OL,1,"))
+        assert "19 APRIL" in ol1
+
+    def test_title_in_double_height_row(self):
+        result = self._render()
+        ol7 = next(l for l in result.split("\n") if l.startswith("OL,7,"))
+        assert "CALLEVISION" in ol7
+        # Must start with double-height control code
+        body = ol7[len("OL,7,"):]
+        assert body[0] == "\r"  # \x0D = double height
+
+    def test_menu_labels_present(self):
+        result = self._render()
+        assert "NYHETER" in result
+        assert "HEM" in result
+        assert "INFO" in result
+        assert "INDEX" in result
+
+    def test_menu_rows_have_color_codes(self):
+        result = self._render()
+        lines = {l.split(",")[1]: l for l in result.split("\n") if l.startswith("OL,")}
+        # Red bullet (row 14)
+        assert "\x01" in lines["14"]
+        # Green bullet (row 15)
+        assert "\x02" in lines["15"]
+        # Yellow bullet (row 16)
+        assert "\x03" in lines["16"]
+        # Blue bullet (row 17)
+        assert "\x04" in lines["17"]
+
+    def test_green_background_band_header(self):
+        result = self._render()
+        ol1 = next(l for l in result.split("\n") if l.startswith("OL,1,"))
+        body = ol1[len("OL,1,"):]
+        assert body[0] == "\x02"   # green text
+        assert body[1] == "\x1d"   # new background
+
+    def test_green_background_band_footer(self):
+        result = self._render()
+        ol24 = next(l for l in result.split("\n") if l.startswith("OL,24,"))
+        body = ol24[len("OL,24,"):]
+        assert body[0] == "\x02"   # green text
+        assert body[1] == "\x1d"   # new background
+
+    def test_optional_banner_date_absent(self):
+        fields = dict(WELCOME_FIELDS)
+        del fields["banner_date"]
+        result = self._render(fields)
+        assert result is not None
+        # Header row should still render (date omitted = padded with spaces)
+        assert "OL,1," in result
+
+    def test_header_row_width(self):
+        result = self._render()
+        ol1 = next(l for l in result.split("\n") if l.startswith("OL,1,"))
+        body = ol1[len("OL,1,"):]
+        assert len(body) == 40
+
+    def test_double_height_row_width(self):
+        result = self._render()
+        ol7 = next(l for l in result.split("\n") if l.startswith("OL,7,"))
+        body = ol7[len("OL,7,"):]
+        assert len(body) == 40
+
+    def test_footer_row_width(self):
+        result = self._render()
+        ol24 = next(l for l in result.split("\n") if l.startswith("OL,24,"))
+        body = ol24[len("OL,24,"):]
+        assert len(body) == 40
+
+
 class TestBridgeJsonHandling:
     """Test JSON validation logic (mirrored from bridge._handle_json)."""
 

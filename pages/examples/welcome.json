@@ -1,0 +1,13 @@
+{
+  "v": 1,
+  "template": "welcome",
+  "fields": {
+    "title": "CALLEVISION",
+    "banner_text": "CALLEVISION",
+    "banner_date": "19 APRIL",
+    "menu_1_label": "NYHETER",
+    "menu_2_label": "HEM",
+    "menu_3_label": "INFO",
+    "menu_4_label": "INDEX"
+  }
+}

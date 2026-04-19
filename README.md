@@ -85,6 +85,37 @@ PYTHONPATH=src python -m pytest tests/
 - Composite video to TV via SCART
 - Ethernet connected
 
+## Templates
+
+The bridge supports JSON-based publishing using named templates. Publish JSON
+to `callevision/pages/{N}` (without `/raw`) and the bridge renders it to TTI:
+
+```bash
+mosquitto_pub -h <broker-ip> -u <username> -P <password> \
+  -t callevision/pages/100 -r \
+  -f pages/examples/welcome.json
+```
+
+### Available templates
+
+| Template | Description |
+|----------|-------------|
+| `basic` | Simple page with title and up to 10 body lines |
+| `welcome` | SVT-inspired welcome page with green header band, double-height title, and a four-item FastText menu |
+
+**welcome template fields:**
+
+| Field | Required | Description |
+|-------|----------|-------------|
+| `title` | yes | Large centered green heading (double-height, row 7) |
+| `banner_text` | yes | Text in the top green band (left side) |
+| `banner_date` | no | Date shown right-aligned in the top band |
+| `menu_1_label` | yes | Red FastText button label (page 200) |
+| `menu_2_label` | yes | Green FastText button label (page 300) |
+| `menu_3_label` | yes | Yellow FastText button label (page 400) |
+| `menu_4_label` | yes | Blue FastText button label (page 500) |
+
 ## Status
 
-Milestone 3 complete: MQTT bridge working end-to-end.
+Milestone 4 complete: MQTT bridge with JSON/template support.
+Milestone 5a complete: welcome template and P100 example page.

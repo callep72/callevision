@@ -15,7 +15,9 @@ def _load_manifest(template_dir: Path) -> dict[str, Any]:
 
 
 def _load_template_text(template_dir: Path) -> str:
-    return (template_dir / "template.tti").read_text(encoding="utf-8")
+    # newline="" preserves CR bytes (used as teletext double-height code \x0D)
+    with open(template_dir / "template.tti", encoding="utf-8", newline="") as f:
+        return f.read()
 
 
 def render(templates_dir: Path, template_name: str, page: int, fields: dict[str, str]) -> str | None:

@@ -53,3 +53,10 @@ for tti in "${files[@]}"; do
 done
 
 echo "Done — ${#files[@]} page(s) published."
+
+# Publish page 100 via JSON template (welcome page)
+json_file="$REPO/pages/examples/welcome.json"
+echo "Publishing welcome.json → callevision/pages/100"
+mosquitto_pub "${MQTT_ARGS[@]}" -t "callevision/pages/100" -r -f "$json_file"
+
+echo "Done — JSON pages published."

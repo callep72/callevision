@@ -1,0 +1,31 @@
+name: welcome
+description: Static welcome page with green header band and FastText menu
+fields:
+  title:
+    type: string
+    max_length: 30
+    required: true
+  banner_text:
+    type: string
+    max_length: 20
+    required: true
+  banner_date:
+    type: string
+    max_length: 8
+    required: false
+  menu_1_label:
+    type: string
+    max_length: 30
+    required: true
+  menu_2_label:
+    type: string
+    max_length: 30
+    required: true
+  menu_3_label:
+    type: string
+    max_length: 30
+    required: true
+  menu_4_label:
+    type: string
+    max_length: 30
+    required: true
