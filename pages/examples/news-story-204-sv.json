@@ -1,0 +1,22 @@
+{
+  "v": 1,
+  "template": "news_story",
+  "fields": {
+    "section": "INRIKES",
+    "title": "Ryska bombplan över Östersjön",
+    "updated": "20 APR 22:47",
+    "subhead": "Svenska Jas skickades upp",
+    "body_1": "Två ryska bombflygplan upptäcktes på",
+    "body_2": "måndagsförmiddagen nordost om Gotland.",
+    "body_3": "Försvarsmakten svarade genom att skicka",
+    "body_4": "upp två Jas 39 Gripen från beredskapen.",
+    "body_5": "Planen flög över internationellt vatten",
+    "body_6": "och kränkte inte svenskt luftrum, men",
+    "body_7": "eskorterades bort av svenskt stridsflyg.",
+    "body_8": "Totalt rörde det sig om fyra ryska plan.",
+    "body_9": "Syftet med närvaron är ännu okänt.",
+    "continued_page": "209",
+    "continued_label": "Fler inrikesnyheter",
+    "footer": "Inrikesöversikt på 209"
+  }
+}

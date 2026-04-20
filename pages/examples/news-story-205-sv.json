@@ -1,0 +1,22 @@
+{
+  "v": 1,
+  "template": "news_story",
+  "fields": {
+    "section": "POLITIK",
+    "title": "V kräver plats i regering",
+    "updated": "20 APR 13:21",
+    "subhead": "Krav efter kongressbeslut",
+    "body_1": "Vänsterpartiet kräver att få sitta i",
+    "body_2": "regeringen om oppositionen vinner valet.",
+    "body_3": "Beslutet togs på partiets kongress efter",
+    "body_4": "en intern strid om hur hårt kravet blir.",
+    "body_5": "Partiet vill inte längre bara stödja S.",
+    "body_6": "Det vill också få egna ministerposter.",
+    "body_7": "Nooshi Dadgostar säger att det kan ge",
+    "body_8": "ny riktning med satsningar på välfärd.",
+    "body_9": "Kravet kan komplicera oppositionssamtal.",
+    "continued_page": "209",
+    "continued_label": "Fler inrikesnyheter",
+    "footer": "Inrikesöversikt på 209"
+  }
+}

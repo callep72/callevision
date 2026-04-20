@@ -1,0 +1,22 @@
+{
+  "v": 1,
+  "template": "news_story",
+  "fields": {
+    "section": "BROTT",
+    "title": "Bedragare får ut mindre pengar",
+    "updated": "20 APR 10:51",
+    "subhead": "Vinsterna minskar för andra året",
+    "body_1": "Bedragare lyckas lura människor på",
+    "body_2": "mindre pengar än förr, säger polisen.",
+    "body_3": "Brottsvinsterna minskade även i fjol",
+    "body_4": "och låg då på nära sex miljarder kronor.",
+    "body_5": "Året före låg summan på mer än sju",
+    "body_6": "miljarder, enligt uppgifter till SR.",
+    "body_7": "Polisen pekar på tätare samarbete med",
+    "body_8": "banker som en viktig förklaring.",
+    "body_9": "Anmälningarna ligger kvar på hög nivå.",
+    "continued_page": "209",
+    "continued_label": "Fler inrikesnyheter",
+    "footer": "Inrikesöversikt på 209"
+  }
+}

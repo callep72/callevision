@@ -1,0 +1,22 @@
+{
+  "v": 1,
+  "template": "news_story",
+  "fields": {
+    "section": "BROTT",
+    "title": "Kvinnor döms för våldsdåd",
+    "updated": "20 APR 17:10",
+    "subhead": "Flera attacker i Stockholm",
+    "body_1": "Två kvinnor i 20-årsåldern döms till",
+    "body_2": "fängelse för flera slumpvisa våldsdåd.",
+    "body_3": "Stockholms tingsrätt dömer dem bland",
+    "body_4": "annat för grov misshandel och våld",
+    "body_5": "mot tjänsteman efter attacker på bussar,",
+    "body_6": "på en restaurang och mot en hemlös man.",
+    "body_7": "En kvinna får två års fängelse och den",
+    "body_8": "andra döms till ett år och tio månader.",
+    "body_9": "Tingsrätten kallar våldet hänsynslöst.",
+    "continued_page": "209",
+    "continued_label": "Fler inrikesnyheter",
+    "footer": "Inrikesöversikt på 209"
+  }
+}

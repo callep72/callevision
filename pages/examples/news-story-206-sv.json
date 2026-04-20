@@ -1,0 +1,22 @@
+{
+  "v": 1,
+  "template": "news_story",
+  "fields": {
+    "section": "SAMHÄLLE",
+    "title": "Fler barnbidrag krävs tillbaka",
+    "updated": "20 APR 15:59",
+    "subhead": "Återkraven gäller boende utomlands",
+    "body_1": "Flera tusen familjer måste varje år",
+    "body_2": "betala tillbaka barnbidrag efter flytt.",
+    "body_3": "Förra året beslutade Försäkringskassan",
+    "body_4": "om nära 11 000 återkrav i sådana fall.",
+    "body_5": "Det är mer än dubbelt så många som för",
+    "body_6": "fem år sedan, enligt Sveriges Radio.",
+    "body_7": "I nästan alla fall gäller återkraven",
+    "body_8": "familjer som bott utomlands utan rätt.",
+    "body_9": "Många fall utreddes som bidragsbrott.",
+    "continued_page": "209",
+    "continued_label": "Fler inrikesnyheter",
+    "footer": "Inrikesöversikt på 209"
+  }
+}

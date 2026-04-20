@@ -1,0 +1,22 @@
+{
+  "v": 1,
+  "template": "news_index",
+  "fields": {
+    "title": "INRIKES 20 APR",
+    "updated": "20 APR 2026",
+    "strapline": "Fem stora svenska nyheter i dag",
+    "lead_1_page": "204",
+    "lead_1_headline": "Ryska bombplan över Östersjön",
+    "lead_2_page": "205",
+    "lead_2_headline": "V kräver plats i regering",
+    "lead_3_page": "206",
+    "lead_3_headline": "Fler barnbidrag krävs tillbaka",
+    "lead_4_page": "207",
+    "lead_4_headline": "Bedragare får ut mindre pengar",
+    "lead_5_page": "208",
+    "lead_5_headline": "Kvinnor döms för våldsdåd",
+    "lead_6_page": "200",
+    "lead_6_headline": "Till huvudindex",
+    "footer": "Nyhetsindex på 200"
+  }
+}
