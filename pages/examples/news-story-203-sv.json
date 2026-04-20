@@ -1,0 +1,22 @@
+{
+  "v": 1,
+  "template": "news_story",
+  "fields": {
+    "section": "LOKALT",
+    "title": "Brand i Åmål under kontroll",
+    "updated": "21 APR 09:10",
+    "subhead": "Räddningstjänsten bevakar ännu",
+    "body_1": "Branden i Åmål är nu under kontroll.",
+    "body_2": "Räddningstjänsten stannar på plats",
+    "body_3": "under förmiddagen för att vädra ur",
+    "body_4": "lokalen och säkra området.",
+    "body_5": "Boende nära sjön ombads stänga",
+    "body_6": "fönster när röken drev över ön.",
+    "body_7": "Polisen utreder ännu hur elden",
+    "body_8": "började och om byggnaden skadats.",
+    "body_9": "Mer om läget väntas under eftermiddagen.",
+    "continued_page": "200",
+    "continued_label": "Till index",
+    "footer": "Nyhetsindex på 200"
+  }
+}
