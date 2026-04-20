@@ -3,15 +3,15 @@ description: Breaking news page with short headline and four supporting lines
 fields:
   label:
     type: string
-    max_length: 39
+    max_length: 15
     required: true
   updated:
     type: string
-    max_length: 38
+    max_length: 22
     required: false
   headline:
     type: string
-    max_length: 39
+    max_length: 36
     required: true
   line_1:
     type: string
@@ -39,5 +39,5 @@ fields:
     required: false
   footer:
     type: string
-    max_length: 38
+    max_length: 37
     required: false

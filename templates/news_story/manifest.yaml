@@ -3,19 +3,19 @@ description: Single news article page with colored section and title
 fields:
   section:
     type: string
-    max_length: 39
+    max_length: 18
     required: true
   title:
     type: string
-    max_length: 39
+    max_length: 36
     required: true
   updated:
     type: string
-    max_length: 38
+    max_length: 19
     required: false
   subhead:
     type: string
-    max_length: 39
+    max_length: 40
     required: false
   body_1:
     type: string
@@ -75,5 +75,5 @@ fields:
     required: false
   footer:
     type: string
-    max_length: 38
+    max_length: 37
     required: false

@@ -240,6 +240,10 @@ NEWS_STORY_FIELDS = {
     "body_2": "varbudget efter flera veckors arbete.",
     "body_3": "Tyngdpunkten ligger pa arbetsmarknad,",
     "body_4": "forsvar och atgarder for tillvaxt.",
+    "body_5": "Oppositionen kritiserar delar av",
+    "body_6": "finansieringen och efterlyser tydligare",
+    "body_7": "besked om hushallens kostnader.",
+    "body_8": "Finansministern sager att forslagen",
     "continued_page": "206",
     "continued_label": "Fortsattning",
     "footer": "Tillbaka till index pa 200",
@@ -281,15 +285,22 @@ class TestNewsIndexTemplate(_TemplateHarness):
         result = self._render_named("news_index", 200, NEWS_INDEX_FIELDS)
         assert "PN,20000\n" in result
 
-    def test_title_row_uses_yellow(self):
+    def test_top_band_uses_green_background(self):
         result = self._render_named("news_index", 200, NEWS_INDEX_FIELDS)
         body = self._ol(result, 1)
-        assert body.startswith("\x1bC")
+        assert body.startswith("\x1bB\x1b]\x1bG")
         assert "NYHETER" in body
+        assert "20 APR 22:15" in body
+
+    def test_strapline_uses_yellow_double_height(self):
+        result = self._render_named("news_index", 200, NEWS_INDEX_FIELDS)
+        body = self._ol(result, 4)
+        assert body.startswith("  \x1bC\x1bM")
+        assert "Senaste nytt pa Callevision" in body
 
     def test_lead_rows_include_page_and_headline(self):
         result = self._render_named("news_index", 200, NEWS_INDEX_FIELDS)
-        body = self._ol(result, 5)
+        body = self._ol(result, 9)
         assert body.startswith("\x1bB201")
         assert "Regeringen presenterar varbudget" in body
 
@@ -299,20 +310,33 @@ class TestNewsStoryTemplate(_TemplateHarness):
         result = self._render_named("news_story", 201, NEWS_STORY_FIELDS)
         assert result is not None
 
-    def test_colored_header_rows(self):
+    def test_top_band_contains_section_and_date(self):
         result = self._render_named("news_story", 201, NEWS_STORY_FIELDS)
-        assert self._ol(result, 1).startswith("\x1bB")
-        assert self._ol(result, 2).startswith("\x1bC")
-        assert self._ol(result, 3).startswith("\x1bF")
+        body = self._ol(result, 1)
+        assert body.startswith("\x1bB\x1b]\x1bG")
+        assert "INRIKES" in body
+        assert "20 APR 22:16" in body
+
+    def test_title_row_is_yellow_double_height(self):
+        result = self._render_named("news_story", 201, NEWS_STORY_FIELDS)
+        body = self._ol(result, 4)
+        assert body.startswith("  \x1bC\x1bM")
+        assert "Regeringen presenterar varbudget" in body
 
     def test_body_lines_are_present(self):
         result = self._render_named("news_story", 201, NEWS_STORY_FIELDS)
-        assert self._ol(result, 6) == "Regeringen lade i kvall fram sin nya"
-        assert self._ol(result, 7) == "varbudget efter flera veckors arbete."
+        assert self._ol(result, 9) == "Regeringen lade i kvall fram sin nya"
+        assert self._ol(result, 10) == "varbudget efter flera veckors arbete."
+
+    def test_middle_paragraph_uses_yellow(self):
+        result = self._render_named("news_story", 201, NEWS_STORY_FIELDS)
+        body = self._ol(result, 14)
+        assert body.startswith("\x1bC")
+        assert "Oppositionen kritiserar delar av" in body
 
     def test_continued_line_contains_page_and_label(self):
         result = self._render_named("news_story", 201, NEWS_STORY_FIELDS)
-        body = self._ol(result, 19)
+        body = self._ol(result, 23)
         assert body.startswith("\x1bB206")
         assert "Fortsattning" in body
 
@@ -322,19 +346,27 @@ class TestNewsFlashTemplate(_TemplateHarness):
         result = self._render_named("news_flash", 202, NEWS_FLASH_FIELDS)
         assert result is not None
 
-    def test_label_and_headline_are_colored(self):
+    def test_top_band_contains_label_and_time(self):
         result = self._render_named("news_flash", 202, NEWS_FLASH_FIELDS)
-        assert self._ol(result, 1).startswith("\x1bA")
-        assert self._ol(result, 4).startswith("\x1bC")
+        body = self._ol(result, 1)
+        assert body.startswith("\x1bB\x1b]\x1bG")
+        assert "EXTRA" in body
+        assert "20 APR 22:17" in body
+
+    def test_headline_is_yellow_double_height(self):
+        result = self._render_named("news_flash", 202, NEWS_FLASH_FIELDS)
+        body = self._ol(result, 4)
+        assert body.startswith("  \x1bC\x1bM")
+        assert "Brand i industrilokal" in body
 
     def test_supporting_lines_render(self):
         result = self._render_named("news_flash", 202, NEWS_FLASH_FIELDS)
-        assert self._ol(result, 6) == "Raddningstjansten arbetar med flera"
-        assert self._ol(result, 9) == "fonster och folja lokala besked."
+        assert self._ol(result, 8) == "Raddningstjansten arbetar med flera"
+        assert self._ol(result, 11) == "fonster och folja lokala besked."
 
     def test_more_line_contains_page_and_label(self):
         result = self._render_named("news_flash", 202, NEWS_FLASH_FIELDS)
-        body = self._ol(result, 11)
+        body = self._ol(result, 21)
         assert body.startswith("\x1bB203")
         assert "Mer om branden" in body
 

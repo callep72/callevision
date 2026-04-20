@@ -2,12 +2,11 @@ DE,{headline}
 PN,{_page}00
 PS,8000
 SC,0000
-OL,1,A{label}
-OL,2,F{updated}
-OL,4,C{headline}
-OL,6,{line_1}
-OL,7,{line_2}
-OL,8,{line_3}
-OL,9,{line_4}
-OL,11,B{more_page}G {more_label}
-OL,23,E{footer}
+OL,1,B]G{label:<15}{updated:>22}
+OL,4,  CM{headline:<36}
+OL,8,{line_1}
+OL,9,{line_2}
+OL,10,{line_3}
+OL,11,{line_4}
+OL,21,B{more_page}G {more_label:<34}
+OL,24,B]G{footer:<37}

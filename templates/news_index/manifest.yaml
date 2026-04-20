@@ -3,15 +3,15 @@ description: News index page with timestamp and up to six headlines
 fields:
   title:
     type: string
-    max_length: 39
+    max_length: 15
     required: true
   updated:
     type: string
-    max_length: 38
+    max_length: 22
     required: false
   strapline:
     type: string
-    max_length: 39
+    max_length: 36
     required: false
   lead_1_page:
     type: string
@@ -63,5 +63,5 @@ fields:
     required: false
   footer:
     type: string
-    max_length: 38
+    max_length: 37
     required: false
