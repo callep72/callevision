@@ -1,0 +1,21 @@
+DE,P707 carousel 1/2
+CT,4,C
+PS,8000
+PN,70701
+SC,0001
+FL,706,708,709,710
+OL,1,         P707 CAROUSEL TEST 1/2         
+OL,5,Wait for subpage 2/2.                   
+OL,7,No change means carousel is broken.     
+OL,10,BSUBPAGE 1G -> SUBPAGE 2                
+OL,24,P706 attrs  P708 FL  P709 ruler         
+DE,P707 carousel 2/2
+PS,8000
+PN,70702
+SC,0002
+FL,706,708,709,710
+OL,1,         P707 CAROUSEL TEST 2/2         
+OL,5,This confirms two PN blocks in one file.
+OL,7,Corruption here suggests a subpage bug. 
+OL,10,CSUBPAGE 2G -> SUBPAGE 1                
+OL,24,P706 attrs  P708 FL  P709 ruler         

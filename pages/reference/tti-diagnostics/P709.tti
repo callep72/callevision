@@ -1,0 +1,13 @@
+DE,P709 ruler
+PS,8000
+PN,70900
+SC,0000
+FL,701,707,708,710
+OL,1,         P709 WIDTH / ALIGNMENT         
+OL,4,1234567890123456789012345678901234567890
+OL,6,|....|....|....|....|....|....|....|....
+OL,8,|left                                   
+OL,10,                 centre                 
+OL,12,                                   right
+OL,15,Use for wrap/truncate/alignment checks. 
+OL,24,P701 base  P707 car  P708 FL  P710 full 

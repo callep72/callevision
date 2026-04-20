@@ -1,0 +1,10 @@
+DE,P708 fasttext
+PS,8000
+PN,70800
+SC,0000
+FL,701,702,703,704
+OL,1,        P708 FASTTEXT / FL LINKS        
+OL,5,The FL line points to P701-P704.        
+OL,7,Row 24 mirrors those targets.           
+OL,10,Labels OK but no nav: suspect FL.       
+OL,24,AP701B P702C P703F P704                 

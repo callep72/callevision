@@ -1,0 +1,11 @@
+DE,P703 foreground colours
+PS,8000
+PN,70300
+SC,0000
+FL,701,702,704,705
+OL,1,        P703 FOREGROUND COLOURS         
+OL,5,ARED  BGREEN  CYELLOW  DBLUE            
+OL,7,EMAGENTA  FCYAN  GWHITE                 
+OL,10,Colours should switch at each word.     
+OL,12,No graphics cells are used on this page.
+OL,24,P701 base  P704 bg  P710 full           

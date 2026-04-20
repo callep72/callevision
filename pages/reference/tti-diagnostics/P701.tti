@@ -1,0 +1,11 @@
+DE,P701 baseline ascii
+PS,8000
+PN,70100
+SC,0000
+OL,1,          P701 BASELINE ASCII           
+OL,4,ASCII only. No gfx. No double height.   
+OL,6,If this fails, check bridge output.     
+OL,8,Expected: crisp white text on black.    
+OL,10,Use as first smoke test on the TV.      
+OL,13,Then compare against P702-P710.         
+OL,24,P702 double  P703 fg  P704 bg  P705 gfx 

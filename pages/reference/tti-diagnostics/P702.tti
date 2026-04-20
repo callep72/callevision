@@ -1,0 +1,10 @@
+DE,P702 double height
+PS,8000
+PN,70200
+SC,0000
+FL,701,703,704,705
+OL,1,         MCDOUBLE HEIGHT TITLE          
+OL,3,LRows 1-2 should form one tall title.   
+OL,6,Top half only: height handling is off.  
+OL,8,If colours smear, attrs are misplaced.  
+OL,24,A701B 703C 704F 705                     

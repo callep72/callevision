@@ -1,0 +1,11 @@
+DE,P704 background colours
+PS,8000
+PN,70400
+SC,0000
+FL,701,703,705,710
+OL,1,        P704 BACKGROUND COLOURS         
+OL,5,A]G RED B]G GREEN C]D YELLOW            
+OL,7,D]G BLUE E]G MAGENTA F]G CYAN           
+OL,9,\GBLACK RESET                           
+OL,12,Look for fill leaks or wrong resets.    
+OL,24,P703 fg  P705 gfx  P710 full            

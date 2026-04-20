@@ -1,0 +1,14 @@
+DE,P710 full diagnostic
+PS,8010
+PN,71000
+SC,0000
+FL,701,703,705,709
+OL,1,         MCP710 FULL TEST PAGE          
+OL,3,LGUse this after checking P701-P709.    
+OL,5,ARED BGREEN CYELLOW DBLUE               
+OL,7,A]G R B]G G D]G B \G reset              
+OL,9,QRSV            
+OL,11,HEFLASHIG steady MFTALLLG normal        
+OL,14,If this fails but P701-P709 pass:       
+OL,15,a specific attribute combination.       
+OL,24,P701  P703  P705  P709                  

@@ -1,0 +1,11 @@
+DE,P705 mosaic graphics
+PS,8000
+PN,70500
+SC,0000
+FL,701,704,706,710
+OL,1,         P705 MOSAIC / GRAPHICS         
+OL,4,QRST    
+OL,6,UVW             
+OL,9,Blocks should be solid and aligned.     
+OL,11,Good for spotting graphics regressions. 
+OL,24,P704 bg  P706 flash  P710 full          
