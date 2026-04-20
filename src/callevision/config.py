@@ -20,6 +20,7 @@ _DEFAULTS: dict[str, Any] = {
     },
     "teletext": {
         "service_name": "callevision-teletext",
+        "reload_debounce_ms": 750,
     },
 }
 

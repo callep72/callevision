@@ -4,7 +4,9 @@ import json
 import logging
 import subprocess
 import sys
+import threading
 from pathlib import Path
+from typing import Callable
 
 import paho.mqtt.client as mqtt
 
@@ -44,7 +46,7 @@ def _parse_topic(topic: str) -> tuple[int, bool] | None:
     return (page, is_raw) if page in PAGE_RANGE else None
 
 
-def _reload_service(service_name: str) -> None:
+def _restart_service(service_name: str) -> None:
     try:
         subprocess.run(
             ["sudo", "systemctl", "restart", service_name],
@@ -54,6 +56,54 @@ def _reload_service(service_name: str) -> None:
         log.info("Restarted %s", service_name)
     except subprocess.CalledProcessError as exc:
         log.error("Failed to restart %s: %s", service_name, exc.stderr.decode().strip())
+
+
+class _ServiceReloader:
+    def __init__(
+        self,
+        service_name: str,
+        debounce_ms: int,
+        restart_func: Callable[[str], None] = _restart_service,
+        timer_factory: Callable[[float, Callable[[], None]], threading.Timer] = threading.Timer,
+    ) -> None:
+        self.service_name = service_name
+        self.debounce_seconds = max(0, debounce_ms) / 1000
+        self.restart_func = restart_func
+        self.timer_factory = timer_factory
+        self._lock = threading.Lock()
+        self._timer: threading.Timer | None = None
+
+    def request(self) -> None:
+        if self.debounce_seconds <= 0:
+            self._restart_now()
+            return
+
+        with self._lock:
+            if self._timer is not None:
+                self._timer.cancel()
+
+            timer = self.timer_factory(self.debounce_seconds, self._restart_from_timer)
+            if hasattr(timer, "daemon"):
+                timer.daemon = True
+            self._timer = timer
+            timer.start()
+
+        log.info("Scheduled restart of %s in %dms", self.service_name, int(self.debounce_seconds * 1000))
+
+    def close(self) -> None:
+        with self._lock:
+            timer = self._timer
+            self._timer = None
+        if timer is not None:
+            timer.cancel()
+
+    def _restart_from_timer(self) -> None:
+        with self._lock:
+            self._timer = None
+        self._restart_now()
+
+    def _restart_now(self) -> None:
+        self.restart_func(self.service_name)
 
 
 def _handle_raw(page: int, payload: str, topic: str, dest: Path, userdata: dict) -> None:
@@ -69,7 +119,7 @@ def _handle_raw(page: int, payload: str, topic: str, dest: Path, userdata: dict)
     dest.parent.mkdir(parents=True, exist_ok=True)
     dest.write_text(payload, encoding="utf-8")
     log.info("Wrote %s (raw)", dest.name)
-    _reload_service(userdata["service_name"])
+    userdata["reloader"].request()
 
 
 def _handle_json(page: int, payload: str, topic: str, dest: Path, userdata: dict) -> None:
@@ -99,7 +149,7 @@ def _handle_json(page: int, payload: str, topic: str, dest: Path, userdata: dict
     dest.parent.mkdir(parents=True, exist_ok=True)
     dest.write_bytes(rendered.encode("utf-8"))
     log.info("Wrote %s (json template=%s)", dest.name, data["template"])
-    _reload_service(userdata["service_name"])
+    userdata["reloader"].request()
 
 
 def _on_connect(client: mqtt.Client, userdata: dict, flags, rc, properties=None) -> None:
@@ -131,7 +181,7 @@ def _on_message(client: mqtt.Client, userdata: dict, msg: mqtt.MQTTMessage) -> N
         if dest.exists():
             dest.unlink()
             log.info("Deleted %s (empty payload)", dest.name)
-            _reload_service(userdata["service_name"])
+            userdata["reloader"].request()
         else:
             log.info("Empty payload for page %d, file already absent", page)
         return
@@ -155,11 +205,13 @@ def run(config_path: str | Path) -> None:
     pages_dir = Path(conf["paths"]["runtime_pages"])
     templates_dir = Path(conf["paths"]["templates"])
     service_name = conf["teletext"]["service_name"]
+    reload_debounce_ms = int(conf["teletext"]["reload_debounce_ms"])
+    reloader = _ServiceReloader(service_name, reload_debounce_ms)
 
     userdata = {
         "pages_dir": pages_dir,
         "templates_dir": templates_dir,
-        "service_name": service_name,
+        "reloader": reloader,
         "raw_pages": set(),
     }
 
@@ -176,7 +228,10 @@ def run(config_path: str | Path) -> None:
 
     log.info("Connecting to %s:%d", mqtt_conf["host"], mqtt_conf["port"])
     client.connect(mqtt_conf["host"], mqtt_conf["port"], keepalive=60)
-    client.loop_forever()
+    try:
+        client.loop_forever()
+    finally:
+        reloader.close()
 
 
 def main() -> None:
