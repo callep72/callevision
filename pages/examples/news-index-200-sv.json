@@ -1,0 +1,22 @@
+{
+  "v": 1,
+  "template": "news_index",
+  "fields": {
+    "title": "NYHETER",
+    "updated": "21 APR 09:15",
+    "strapline": "Senaste nytt från Callevision",
+    "lead_1_page": "201",
+    "lead_1_headline": "Väderläge i Åmål: snö över sjön",
+    "lead_2_page": "202",
+    "lead_2_headline": "Räddningstjänsten höjer beredskap",
+    "lead_3_page": "203",
+    "lead_3_headline": "Brand i Åmål under kontroll",
+    "lead_4_page": "204",
+    "lead_4_headline": "Översvämning nära småbåtshamn",
+    "lead_5_page": "205",
+    "lead_5_headline": "Tåg står stilla i blåst och snö",
+    "lead_6_page": "206",
+    "lead_6_headline": "Skolköket öppnar efter åtgärd",
+    "footer": "Fler nyheter på 210"
+  }
+}

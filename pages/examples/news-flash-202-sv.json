@@ -1,0 +1,16 @@
+{
+  "v": 1,
+  "template": "news_flash",
+  "fields": {
+    "label": "EXTRA",
+    "updated": "21 APR 09:17",
+    "headline": "Rök över Åmål efter brand",
+    "line_1": "Räddningstjänsten arbetar ännu vid",
+    "line_2": "området och boende ombeds stänga",
+    "line_3": "fönster när röken driver över sjön.",
+    "line_4": "Läget bedöms som stabilt just nu.",
+    "more_page": "203",
+    "more_label": "Mer om läget",
+    "footer": "Nyhetsindex på 200"
+  }
+}
