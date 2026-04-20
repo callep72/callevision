@@ -86,6 +86,16 @@ class TestRender:
         assert "truncated" not in caplog.text
         assert "DE,1234567890\n" in result
 
+    def test_swedish_letters_are_mapped_to_teletext_subset(self, tmp_path):
+        tdir = _make_template(
+            tmp_path,
+            template_text="PN,{_page}00\nPS,8100\nOL,1,{title}\n",
+        )
+        result = templates.render(tdir, "basic", 100, {"title": "ÅÄÖåäöÉéÜü"})
+        assert result is not None
+        assert "PS,8100\n" in result
+        assert "OL,1,][\\}{|@`^~\n" in result
+
 
 class TestManifestLoading:
     def test_load_basic_template(self):
@@ -132,6 +142,10 @@ class TestWelcomeTemplate:
     def test_fasttext_links(self):
         result = self._render()
         assert "FL,200,300,400,500\r\n" in result
+
+    def test_uses_swedish_page_status(self):
+        result = self._render()
+        assert "PS,8100\r\n" in result
 
     def test_banner_text_in_header(self):
         result = self._render()
@@ -285,6 +299,10 @@ class TestNewsIndexTemplate(_TemplateHarness):
         result = self._render_named("news_index", 200, NEWS_INDEX_FIELDS)
         assert "PN,20000\n" in result
 
+    def test_uses_swedish_page_status(self):
+        result = self._render_named("news_index", 200, NEWS_INDEX_FIELDS)
+        assert "PS,8100\n" in result
+
     def test_top_band_uses_green_background(self):
         result = self._render_named("news_index", 200, NEWS_INDEX_FIELDS)
         body = self._ol(result, 1)
@@ -303,6 +321,13 @@ class TestNewsIndexTemplate(_TemplateHarness):
         body = self._ol(result, 9)
         assert body.startswith("\x1bB201")
         assert "Regeringen presenterar varbudget" in body
+
+    def test_swedish_letters_are_encoded(self):
+        fields = dict(NEWS_INDEX_FIELDS)
+        fields["lead_1_headline"] = "Väderläge i Åmål: snö över sjön"
+        result = self._render_named("news_index", 200, fields)
+        body = self._ol(result, 9)
+        assert body == "\x1bB201\x1bG V{derl{ge i ]m}l: sn| |ver sj|n"
 
 
 class TestNewsStoryTemplate(_TemplateHarness):

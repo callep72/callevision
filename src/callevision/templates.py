@@ -9,6 +9,25 @@ import yaml
 log = logging.getLogger("callevision.templates")
 
 
+# ETSI EN 300 706 Swedish/Finnish/Hungarian national option subset.
+# Template text is authored in Unicode, but the emitted TTI page body needs
+# the corresponding teletext code positions in the G0 Latin set.
+_SWEDISH_TELETEXT_TRANSLATION = str.maketrans(
+    {
+        "É": "@",
+        "Ä": "[",
+        "Ö": "\\",
+        "Å": "]",
+        "Ü": "^",
+        "é": "`",
+        "ä": "{",
+        "ö": "|",
+        "å": "}",
+        "ü": "~",
+    }
+)
+
+
 def _load_manifest(template_dir: Path) -> dict[str, Any]:
     with open(template_dir / "manifest.yaml") as f:
         return yaml.safe_load(f)
@@ -18,6 +37,10 @@ def _load_template_text(template_dir: Path) -> str:
     # newline="" preserves CR bytes in CRLF line endings
     with open(template_dir / "template.tti", encoding="utf-8", newline="") as f:
         return f.read()
+
+
+def _encode_teletext_text(value: str) -> str:
+    return value.translate(_SWEDISH_TELETEXT_TRANSLATION)
 
 
 def render(templates_dir: Path, template_name: str, page: int, fields: dict[str, str]) -> str | None:
@@ -44,6 +67,6 @@ def render(templates_dir: Path, template_name: str, page: int, fields: dict[str,
             log.warning("Field '%s' truncated from %d to %d chars", field_name, len(value), max_length)
             value = value[:max_length]
 
-        render_fields[field_name] = value
+        render_fields[field_name] = _encode_teletext_text(value)
 
     return template_text.format(**render_fields)

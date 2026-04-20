@@ -1,6 +1,6 @@
 DE,{banner_text}
 PN,{_page}00
-PS,8000
+PS,8100
 SC,0000
 FL,200,300,400,500
 OL,1,G{banner_text:<31}{banner_date:>8}
