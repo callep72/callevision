@@ -2,7 +2,7 @@ DE,{title}
 PN,{_page}00
 PS,8000
 SC,0000
-OL,1,B]G{title:<15}{updated:>22}
+OL,1,B]@{title:<15}{updated:>22}
 OL,4,  CM{strapline:<36}
 OL,9,B{lead_1_page}G {lead_1_headline}
 OL,10,B{lead_2_page}G {lead_2_headline}
@@ -10,4 +10,4 @@ OL,11,B{lead_3_page}G {lead_3_headline}
 OL,12,B{lead_4_page}G {lead_4_headline}
 OL,13,B{lead_5_page}G {lead_5_headline}
 OL,14,B{lead_6_page}G {lead_6_headline}
-OL,23,B]G{footer:<37}
+OL,23,B]@{footer:<37}

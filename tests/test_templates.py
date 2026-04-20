@@ -288,7 +288,7 @@ class TestNewsIndexTemplate(_TemplateHarness):
     def test_top_band_uses_green_background(self):
         result = self._render_named("news_index", 200, NEWS_INDEX_FIELDS)
         body = self._ol(result, 1)
-        assert body.startswith("\x1bB\x1b]\x1bG")
+        assert body.startswith("\x1bB\x1b]\x1b@")
         assert "NYHETER" in body
         assert "20 APR 22:15" in body
 
@@ -313,7 +313,7 @@ class TestNewsStoryTemplate(_TemplateHarness):
     def test_top_band_contains_section_and_date(self):
         result = self._render_named("news_story", 201, NEWS_STORY_FIELDS)
         body = self._ol(result, 1)
-        assert body.startswith("\x1bB\x1b]\x1bG")
+        assert body.startswith("\x1bB\x1b]\x1b@")
         assert "INRIKES" in body
         assert "20 APR 22:16" in body
 
@@ -343,7 +343,7 @@ class TestNewsStoryTemplate(_TemplateHarness):
     def test_footer_moves_into_safe_area(self):
         result = self._render_named("news_story", 201, NEWS_STORY_FIELDS)
         body = self._ol(result, 23)
-        assert body.startswith("\x1bB\x1b]\x1bG")
+        assert body.startswith("\x1bB\x1b]\x1b@")
         assert "Tillbaka till index pa 200" in body
 
 
@@ -355,7 +355,7 @@ class TestNewsFlashTemplate(_TemplateHarness):
     def test_top_band_contains_label_and_time(self):
         result = self._render_named("news_flash", 202, NEWS_FLASH_FIELDS)
         body = self._ol(result, 1)
-        assert body.startswith("\x1bB\x1b]\x1bG")
+        assert body.startswith("\x1bB\x1b]\x1b@")
         assert "EXTRA" in body
         assert "20 APR 22:17" in body
 
@@ -379,7 +379,7 @@ class TestNewsFlashTemplate(_TemplateHarness):
     def test_footer_moves_into_safe_area(self):
         result = self._render_named("news_flash", 202, NEWS_FLASH_FIELDS)
         body = self._ol(result, 23)
-        assert body.startswith("\x1bB\x1b]\x1bG")
+        assert body.startswith("\x1bB\x1b]\x1b@")
         assert "Nyhetsindex pa 200" in body
 
 
