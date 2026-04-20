@@ -1,0 +1,22 @@
+DE,{title}
+PN,{_page}00
+PS,8000
+SC,0000
+OL,1,B{section}
+OL,2,C{title}
+OL,3,F{updated}
+OL,4,G{subhead}
+OL,6,{body_1}
+OL,7,{body_2}
+OL,8,{body_3}
+OL,9,{body_4}
+OL,10,{body_5}
+OL,11,{body_6}
+OL,12,{body_7}
+OL,13,{body_8}
+OL,14,{body_9}
+OL,15,{body_10}
+OL,16,{body_11}
+OL,17,{body_12}
+OL,19,B{continued_page}G {continued_label}
+OL,23,F{footer}

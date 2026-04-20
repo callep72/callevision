@@ -1,0 +1,14 @@
+DE,{title}
+PN,{_page}00
+PS,8000
+SC,0000
+OL,1,C{title}
+OL,2,F{updated}
+OL,3,B{strapline}
+OL,5,B{lead_1_page}G {lead_1_headline}
+OL,6,B{lead_2_page}G {lead_2_headline}
+OL,7,B{lead_3_page}G {lead_3_headline}
+OL,8,B{lead_4_page}G {lead_4_headline}
+OL,9,B{lead_5_page}G {lead_5_headline}
+OL,10,B{lead_6_page}G {lead_6_headline}
+OL,23,F{footer}

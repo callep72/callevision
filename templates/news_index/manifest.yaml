@@ -1,0 +1,67 @@
+name: news_index
+description: News index page with timestamp and up to six headlines
+fields:
+  title:
+    type: string
+    max_length: 39
+    required: true
+  updated:
+    type: string
+    max_length: 38
+    required: false
+  strapline:
+    type: string
+    max_length: 39
+    required: false
+  lead_1_page:
+    type: string
+    max_length: 3
+    required: false
+  lead_1_headline:
+    type: string
+    max_length: 34
+    required: false
+  lead_2_page:
+    type: string
+    max_length: 3
+    required: false
+  lead_2_headline:
+    type: string
+    max_length: 34
+    required: false
+  lead_3_page:
+    type: string
+    max_length: 3
+    required: false
+  lead_3_headline:
+    type: string
+    max_length: 34
+    required: false
+  lead_4_page:
+    type: string
+    max_length: 3
+    required: false
+  lead_4_headline:
+    type: string
+    max_length: 34
+    required: false
+  lead_5_page:
+    type: string
+    max_length: 3
+    required: false
+  lead_5_headline:
+    type: string
+    max_length: 34
+    required: false
+  lead_6_page:
+    type: string
+    max_length: 3
+    required: false
+  lead_6_headline:
+    type: string
+    max_length: 34
+    required: false
+  footer:
+    type: string
+    max_length: 38
+    required: false

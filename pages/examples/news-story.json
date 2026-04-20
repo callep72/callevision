@@ -1,0 +1,22 @@
+{
+  "v": 1,
+  "template": "news_story",
+  "fields": {
+    "section": "INRIKES",
+    "title": "Regeringen presenterar varbudget",
+    "updated": "20 APR 22:16",
+    "subhead": "Fokus pa jobb, forsvar och tillvaxt",
+    "body_1": "Regeringen lade i kvall fram sin nya",
+    "body_2": "varbudget efter flera veckors arbete.",
+    "body_3": "Tyngdpunkten ligger pa arbetsmarknad,",
+    "body_4": "forsvar och atgarder for tillvaxt.",
+    "body_5": "Oppositionen kritiserar delar av",
+    "body_6": "finansieringen och efterlyser tydligare",
+    "body_7": "besked om hushallens kostnader.",
+    "body_8": "Finansministern sager att forslagen",
+    "body_9": "ska ge stabilitet under resten av aret.",
+    "continued_page": "206",
+    "continued_label": "Fortsattning",
+    "footer": "Tillbaka till index pa 200"
+  }
+}

@@ -211,6 +211,134 @@ class TestWelcomeTemplate:
         assert len(body) == 42
 
 
+NEWS_INDEX_FIELDS = {
+    "title": "NYHETER",
+    "updated": "20 APR 22:15",
+    "strapline": "Senaste nytt pa Callevision",
+    "lead_1_page": "201",
+    "lead_1_headline": "Regeringen presenterar varbudget",
+    "lead_2_page": "202",
+    "lead_2_headline": "Borsen stiger efter ny rapportdag",
+    "lead_3_page": "203",
+    "lead_3_headline": "Brand i lokal under kontroll",
+    "lead_4_page": "204",
+    "lead_4_headline": "EU enas om nytt AI-ramverk",
+    "lead_5_page": "205",
+    "lead_5_headline": "Tagtrafik stoppas i hard vind",
+    "lead_6_page": "206",
+    "lead_6_headline": "Kommunen skjuter upp ny skola",
+    "footer": "Fler nyheter pa 210",
+}
+
+
+NEWS_STORY_FIELDS = {
+    "section": "INRIKES",
+    "title": "Regeringen presenterar varbudget",
+    "updated": "20 APR 22:16",
+    "subhead": "Fokus pa jobb, forsvar och tillvaxt",
+    "body_1": "Regeringen lade i kvall fram sin nya",
+    "body_2": "varbudget efter flera veckors arbete.",
+    "body_3": "Tyngdpunkten ligger pa arbetsmarknad,",
+    "body_4": "forsvar och atgarder for tillvaxt.",
+    "continued_page": "206",
+    "continued_label": "Fortsattning",
+    "footer": "Tillbaka till index pa 200",
+}
+
+
+NEWS_FLASH_FIELDS = {
+    "label": "EXTRA",
+    "updated": "20 APR 22:17",
+    "headline": "Brand i industrilokal",
+    "line_1": "Raddningstjansten arbetar med flera",
+    "line_2": "enheter pa plats i industriomradet.",
+    "line_3": "Boende i narheten uppmanas stanga",
+    "line_4": "fonster och folja lokala besked.",
+    "more_page": "203",
+    "more_label": "Mer om branden",
+    "footer": "Nyhetsindex pa 200",
+}
+
+
+class _TemplateHarness:
+    def _render_named(self, template_name, page, fields):
+        project_root = Path(__file__).parent.parent
+        tdir = project_root / "templates"
+        return templates.render(tdir, template_name, page, fields)
+
+    def _ol(self, result, row):
+        prefix = f"OL,{row},"
+        line = next(l for l in result.split("\n") if l.startswith(prefix))
+        return line[len(prefix):].rstrip("\r")
+
+
+class TestNewsIndexTemplate(_TemplateHarness):
+    def test_renders_without_error(self):
+        result = self._render_named("news_index", 200, NEWS_INDEX_FIELDS)
+        assert result is not None
+
+    def test_page_number(self):
+        result = self._render_named("news_index", 200, NEWS_INDEX_FIELDS)
+        assert "PN,20000\n" in result
+
+    def test_title_row_uses_yellow(self):
+        result = self._render_named("news_index", 200, NEWS_INDEX_FIELDS)
+        body = self._ol(result, 1)
+        assert body.startswith("\x1bC")
+        assert "NYHETER" in body
+
+    def test_lead_rows_include_page_and_headline(self):
+        result = self._render_named("news_index", 200, NEWS_INDEX_FIELDS)
+        body = self._ol(result, 5)
+        assert body.startswith("\x1bB201")
+        assert "Regeringen presenterar varbudget" in body
+
+
+class TestNewsStoryTemplate(_TemplateHarness):
+    def test_renders_without_error(self):
+        result = self._render_named("news_story", 201, NEWS_STORY_FIELDS)
+        assert result is not None
+
+    def test_colored_header_rows(self):
+        result = self._render_named("news_story", 201, NEWS_STORY_FIELDS)
+        assert self._ol(result, 1).startswith("\x1bB")
+        assert self._ol(result, 2).startswith("\x1bC")
+        assert self._ol(result, 3).startswith("\x1bF")
+
+    def test_body_lines_are_present(self):
+        result = self._render_named("news_story", 201, NEWS_STORY_FIELDS)
+        assert self._ol(result, 6) == "Regeringen lade i kvall fram sin nya"
+        assert self._ol(result, 7) == "varbudget efter flera veckors arbete."
+
+    def test_continued_line_contains_page_and_label(self):
+        result = self._render_named("news_story", 201, NEWS_STORY_FIELDS)
+        body = self._ol(result, 19)
+        assert body.startswith("\x1bB206")
+        assert "Fortsattning" in body
+
+
+class TestNewsFlashTemplate(_TemplateHarness):
+    def test_renders_without_error(self):
+        result = self._render_named("news_flash", 202, NEWS_FLASH_FIELDS)
+        assert result is not None
+
+    def test_label_and_headline_are_colored(self):
+        result = self._render_named("news_flash", 202, NEWS_FLASH_FIELDS)
+        assert self._ol(result, 1).startswith("\x1bA")
+        assert self._ol(result, 4).startswith("\x1bC")
+
+    def test_supporting_lines_render(self):
+        result = self._render_named("news_flash", 202, NEWS_FLASH_FIELDS)
+        assert self._ol(result, 6) == "Raddningstjansten arbetar med flera"
+        assert self._ol(result, 9) == "fonster och folja lokala besked."
+
+    def test_more_line_contains_page_and_label(self):
+        result = self._render_named("news_flash", 202, NEWS_FLASH_FIELDS)
+        body = self._ol(result, 11)
+        assert body.startswith("\x1bB203")
+        assert "Mer om branden" in body
+
+
 class TestBridgeJsonHandling:
     """Test JSON validation logic (mirrored from bridge._handle_json)."""
 

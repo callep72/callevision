@@ -102,6 +102,9 @@ mosquitto_pub -h <broker-ip> -u <username> -P <password> \
 |----------|-------------|
 | `basic` | Simple page with title and up to 10 body lines |
 | `welcome` | SVT-inspired welcome page with green header band, double-height title, and a four-item FastText menu |
+| `news_index` | News front page with timestamp and up to six linked headlines |
+| `news_story` | Single article page with colored section, title, and continuation marker |
+| `news_flash` | Breaking-news layout with label, headline, and four supporting lines |
 
 **welcome template fields:**
 
@@ -114,6 +117,14 @@ mosquitto_pub -h <broker-ip> -u <username> -P <password> \
 | `menu_2_label` | yes | Green FastText button label (page 300) |
 | `menu_3_label` | yes | Yellow FastText button label (page 400) |
 | `menu_4_label` | yes | Blue FastText button label (page 500) |
+
+### News template examples
+
+Sample MQTT payloads for the new templates:
+
+- `pages/examples/news-index.json` for `P200`
+- `pages/examples/news-story.json` for `P201`
+- `pages/examples/news-flash.json` for `P202`
 
 ## Status
 

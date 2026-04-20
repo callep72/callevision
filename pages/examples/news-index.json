@@ -1,0 +1,22 @@
+{
+  "v": 1,
+  "template": "news_index",
+  "fields": {
+    "title": "NYHETER",
+    "updated": "20 APR 22:15",
+    "strapline": "Senaste nytt pa Callevision",
+    "lead_1_page": "201",
+    "lead_1_headline": "Regeringen presenterar varbudget",
+    "lead_2_page": "202",
+    "lead_2_headline": "Borsen stiger efter ny rapportdag",
+    "lead_3_page": "203",
+    "lead_3_headline": "Brand i lokal under kontroll",
+    "lead_4_page": "204",
+    "lead_4_headline": "EU enas om nytt AI-ramverk",
+    "lead_5_page": "205",
+    "lead_5_headline": "Tagtrafik stoppas i hard vind",
+    "lead_6_page": "206",
+    "lead_6_headline": "Kommunen skjuter upp ny skola",
+    "footer": "Fler nyheter pa 210"
+  }
+}

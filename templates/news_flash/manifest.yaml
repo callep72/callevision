@@ -1,0 +1,43 @@
+name: news_flash
+description: Breaking news page with short headline and four supporting lines
+fields:
+  label:
+    type: string
+    max_length: 39
+    required: true
+  updated:
+    type: string
+    max_length: 38
+    required: false
+  headline:
+    type: string
+    max_length: 39
+    required: true
+  line_1:
+    type: string
+    max_length: 40
+    required: false
+  line_2:
+    type: string
+    max_length: 40
+    required: false
+  line_3:
+    type: string
+    max_length: 40
+    required: false
+  line_4:
+    type: string
+    max_length: 40
+    required: false
+  more_page:
+    type: string
+    max_length: 3
+    required: false
+  more_label:
+    type: string
+    max_length: 34
+    required: false
+  footer:
+    type: string
+    max_length: 38
+    required: false

@@ -1,0 +1,79 @@
+name: news_story
+description: Single news article page with colored section and title
+fields:
+  section:
+    type: string
+    max_length: 39
+    required: true
+  title:
+    type: string
+    max_length: 39
+    required: true
+  updated:
+    type: string
+    max_length: 38
+    required: false
+  subhead:
+    type: string
+    max_length: 39
+    required: false
+  body_1:
+    type: string
+    max_length: 40
+    required: false
+  body_2:
+    type: string
+    max_length: 40
+    required: false
+  body_3:
+    type: string
+    max_length: 40
+    required: false
+  body_4:
+    type: string
+    max_length: 40
+    required: false
+  body_5:
+    type: string
+    max_length: 40
+    required: false
+  body_6:
+    type: string
+    max_length: 40
+    required: false
+  body_7:
+    type: string
+    max_length: 40
+    required: false
+  body_8:
+    type: string
+    max_length: 40
+    required: false
+  body_9:
+    type: string
+    max_length: 40
+    required: false
+  body_10:
+    type: string
+    max_length: 40
+    required: false
+  body_11:
+    type: string
+    max_length: 40
+    required: false
+  body_12:
+    type: string
+    max_length: 40
+    required: false
+  continued_page:
+    type: string
+    max_length: 3
+    required: false
+  continued_label:
+    type: string
+    max_length: 34
+    required: false
+  footer:
+    type: string
+    max_length: 38
+    required: false

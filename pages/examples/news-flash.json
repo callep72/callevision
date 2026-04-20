@@ -1,0 +1,16 @@
+{
+  "v": 1,
+  "template": "news_flash",
+  "fields": {
+    "label": "EXTRA",
+    "updated": "20 APR 22:17",
+    "headline": "Brand i industrilokal",
+    "line_1": "Raddningstjansten arbetar med flera",
+    "line_2": "enheter pa plats i industriomradet.",
+    "line_3": "Boende i narheten uppmanas stanga",
+    "line_4": "fonster och folja lokala besked.",
+    "more_page": "203",
+    "more_label": "Mer om branden",
+    "footer": "Nyhetsindex pa 200"
+  }
+}
