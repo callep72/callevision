@@ -8,5 +8,5 @@ OL,8,{line_1}
 OL,9,{line_2}
 OL,10,{line_3}
 OL,11,{line_4}
-OL,21,B{more_page}G {more_label:<34}
-OL,24,B]G{footer:<37}
+OL,20,B{more_page}G {more_label:<34}
+OL,23,B]G{footer:<37}

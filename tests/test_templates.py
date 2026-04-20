@@ -336,9 +336,15 @@ class TestNewsStoryTemplate(_TemplateHarness):
 
     def test_continued_line_contains_page_and_label(self):
         result = self._render_named("news_story", 201, NEWS_STORY_FIELDS)
-        body = self._ol(result, 23)
+        body = self._ol(result, 22)
         assert body.startswith("\x1bB206")
         assert "Fortsattning" in body
+
+    def test_footer_moves_into_safe_area(self):
+        result = self._render_named("news_story", 201, NEWS_STORY_FIELDS)
+        body = self._ol(result, 23)
+        assert body.startswith("\x1bB\x1b]\x1bG")
+        assert "Tillbaka till index pa 200" in body
 
 
 class TestNewsFlashTemplate(_TemplateHarness):
@@ -366,9 +372,15 @@ class TestNewsFlashTemplate(_TemplateHarness):
 
     def test_more_line_contains_page_and_label(self):
         result = self._render_named("news_flash", 202, NEWS_FLASH_FIELDS)
-        body = self._ol(result, 21)
+        body = self._ol(result, 20)
         assert body.startswith("\x1bB203")
         assert "Mer om branden" in body
+
+    def test_footer_moves_into_safe_area(self):
+        result = self._render_named("news_flash", 202, NEWS_FLASH_FIELDS)
+        body = self._ol(result, 23)
+        assert body.startswith("\x1bB\x1b]\x1bG")
+        assert "Nyhetsindex pa 200" in body
 
 
 class TestBridgeJsonHandling:
