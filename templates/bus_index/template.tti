@@ -1,0 +1,16 @@
+DE,Busstider
+PN,{_page}00
+PS,8100
+SC,0000
+OL,1,A]@ BUSSTIDER {stop_name:<26}
+OL,2,  C{updated}
+OL,4,  CKommande avg}ngar
+OL,5,  {dep_1}
+OL,6,  {dep_2}
+OL,7,  {dep_3}
+OL,8,  {dep_4}
+OL,9,  {dep_5}
+OL,16,A{page_605}G {label_605}
+OL,17,C{page_609}G {label_609}
+OL,18,B{page_610}G {label_610}
+OL,23,A]@{footer:<37}
