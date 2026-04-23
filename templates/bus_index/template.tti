@@ -4,7 +4,7 @@ PS,8100
 SC,0000
 OL,1,A]@ BUSSTIDER {stop_name:<26}
 OL,2,  C{updated}
-OL,4,  CKommande avg}ngar
+OL,4,  CKommande avg}}ngar
 OL,5,  {dep_1}
 OL,6,  {dep_2}
 OL,7,  {dep_3}
