@@ -101,7 +101,7 @@ Regler:
 
     print(f"  (tokens: {response.usage.input_tokens} in, {response.usage.output_tokens} out)")
 
-    text = next((b.text for b in response.content if b.type == "text"), "")
+    text = next((b.text for b in reversed(response.content) if b.type == "text"), "")
 
     if not text:
         print("  Svar saknar textblock. Innehåll i svaret:", file=sys.stderr)
