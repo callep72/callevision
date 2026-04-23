@@ -12,3 +12,12 @@ paths:
 teletext:
   service_name: callevision-teletext
   reload_debounce_ms: 750
+
+bus_departures:
+  api_key: your-resrobot-v2.1-key
+  stop_id: ""              # hitta med: python scripts/fetch-bus-departures.py --find-stop "Gribbylunds centrum"
+  stop_name: "Gribbylunds centrum"
+  lines:
+    - "605"
+    - "609"
+    - "610"
