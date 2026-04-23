@@ -1,0 +1,18 @@
+DE,{bus_number}
+PN,{_page}00
+PS,8100
+SC,0000
+OL,1,A]@ BUSS {bus_number:<3}   {stop_name:<25}
+OL,2,  C{updated}
+OL,4,  CTID    MOT
+OL,5,  {dep_1}
+OL,6,  {dep_2}
+OL,7,  {dep_3}
+OL,8,  {dep_4}
+OL,9,  {dep_5}
+OL,10,  {dep_6}
+OL,11,  {dep_7}
+OL,12,  {dep_8}
+OL,13,  {dep_9}
+OL,14,  {dep_10}
+OL,23,A]@{footer:<37}

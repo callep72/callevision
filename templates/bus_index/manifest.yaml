@@ -1,0 +1,59 @@
+name: bus_index
+description: Bus departures index page with upcoming departures and line menu
+fields:
+  stop_name:
+    type: string
+    max_length: 26
+    required: true
+  updated:
+    type: string
+    max_length: 19
+    required: false
+  dep_1:
+    type: string
+    max_length: 38
+    required: false
+  dep_2:
+    type: string
+    max_length: 38
+    required: false
+  dep_3:
+    type: string
+    max_length: 38
+    required: false
+  dep_4:
+    type: string
+    max_length: 38
+    required: false
+  dep_5:
+    type: string
+    max_length: 38
+    required: false
+  page_605:
+    type: string
+    max_length: 3
+    required: false
+  label_605:
+    type: string
+    max_length: 34
+    required: false
+  page_609:
+    type: string
+    max_length: 3
+    required: false
+  label_609:
+    type: string
+    max_length: 34
+    required: false
+  page_610:
+    type: string
+    max_length: 3
+    required: false
+  label_610:
+    type: string
+    max_length: 34
+    required: false
+  footer:
+    type: string
+    max_length: 37
+    required: false

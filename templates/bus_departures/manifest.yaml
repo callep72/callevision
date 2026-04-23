@@ -1,0 +1,59 @@
+name: bus_departures
+description: Departure board for a single bus line, up to ten departures
+fields:
+  bus_number:
+    type: string
+    max_length: 3
+    required: true
+  stop_name:
+    type: string
+    max_length: 25
+    required: true
+  updated:
+    type: string
+    max_length: 19
+    required: false
+  dep_1:
+    type: string
+    max_length: 36
+    required: false
+  dep_2:
+    type: string
+    max_length: 36
+    required: false
+  dep_3:
+    type: string
+    max_length: 36
+    required: false
+  dep_4:
+    type: string
+    max_length: 36
+    required: false
+  dep_5:
+    type: string
+    max_length: 36
+    required: false
+  dep_6:
+    type: string
+    max_length: 36
+    required: false
+  dep_7:
+    type: string
+    max_length: 36
+    required: false
+  dep_8:
+    type: string
+    max_length: 36
+    required: false
+  dep_9:
+    type: string
+    max_length: 36
+    required: false
+  dep_10:
+    type: string
+    max_length: 36
+    required: false
+  footer:
+    type: string
+    max_length: 37
+    required: false
