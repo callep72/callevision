@@ -101,9 +101,15 @@ Regler:
 
     print(f"  (tokens: {response.usage.input_tokens} in, {response.usage.output_tokens} out)")
 
-    text = next(b.text for b in response.content if b.type == "text")
+    text = next((b.text for b in response.content if b.type == "text"), "")
 
-    # Handle JSON wrapped in markdown code blocks
+    if not text:
+        print("  Svar saknar textblock. Innehåll i svaret:", file=sys.stderr)
+        for block in response.content:
+            print(f"    {block.type}", file=sys.stderr)
+        raise ValueError("Claude returnerade inget textblock")
+
+    # Try markdown code blocks first
     if "```" in text:
         for part in text.split("```")[1::2]:
             part = part.strip().lstrip("json").strip()
@@ -112,7 +118,18 @@ Regler:
             except json.JSONDecodeError:
                 continue
 
-    return json.loads(text.strip())
+    # Try to find a bare JSON array anywhere in the text
+    start = text.find("[")
+    end = text.rfind("]")
+    if start != -1 and end != -1 and end > start:
+        try:
+            return json.loads(text[start:end + 1])
+        except json.JSONDecodeError:
+            pass
+
+    print("  Råsvar från Claude:", file=sys.stderr)
+    print(text[:500], file=sys.stderr)
+    raise ValueError("Kunde inte hitta JSON i svaret")
 
 
 def story_payload(formatted: dict, now: datetime) -> dict:
