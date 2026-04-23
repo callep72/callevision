@@ -45,11 +45,11 @@ fields:
     type: string
     max_length: 34
     required: false
-  page_610:
+  page_615:
     type: string
     max_length: 3
     required: false
-  label_610:
+  label_615:
     type: string
     max_length: 34
     required: false

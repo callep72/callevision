@@ -2,17 +2,17 @@
 """Fetch SL bus departures from ResRobot v2.1, publish via MQTT.
 
 Page 600:          bus index  (bus_index template)
-Pages 605/609/610: per-line   (bus_departures template)
+Pages 605/609/615: per-line   (bus_departures template)
 
 Config (callevision.yaml):
     bus_departures:
         api_key: <ResRobot v2.1 key>         # or env RESROBOT_API_KEY
-        stop_id: "740098000"                 # ResRobot extId for the stop
+        stop_id: "740001177"                 # ResRobot extId for the stop
         stop_name: "Gribbylunds centrum"     # max 25 chars
-        lines: ["605", "609", "610"]
+        lines: ["605", "609", "615"]
 
 Usage:
-    python scripts/fetch-bus-departures.py [--dry-run]
+    python scripts/fetch-bus-departures.py [--dry-run] [--debug]
     python scripts/fetch-bus-departures.py --find-stop "Gribbylunds centrum"
 """
 
@@ -30,7 +30,7 @@ import yaml
 
 RESROBOT_BASE = "https://api.resrobot.se/v2.1"
 INDEX_PAGE = 600
-LINE_PAGES = {"605": 605, "609": 609, "610": 610}
+LINE_PAGES = {"605": 605, "609": 609, "615": 615}
 MQTT_CLIENT_ID = "callevision-bus-departures"
 
 MONTH_SV = ["JAN", "FEB", "MAR", "APR", "MAJ", "JUN",
@@ -91,9 +91,16 @@ def _line_of(dep: dict) -> str:
     if isinstance(products, dict):
         products = [products]
     for p in products:
-        name = p.get("line") or p.get("num") or p.get("displayNumber") or ""
-        if name:
-            return name
+        for field in ("line", "num", "displayNumber", "number"):
+            val = p.get(field, "")
+            if val:
+                return val
+        # Fallback: "Buss 605" → "605"
+        pname = p.get("name", "")
+        if pname:
+            parts = pname.strip().split()
+            if parts and parts[-1].isdigit():
+                return parts[-1]
     return ""
 
 
@@ -153,8 +160,8 @@ def bus_index_payload(stop_name: str, deps_by_line: dict, now: datetime) -> dict
         "label_605": "Alla avg. linje 605",
         "page_609": "609",
         "label_609": "Alla avg. linje 609",
-        "page_610": "610",
-        "label_610": "Alla avg. linje 610",
+        "page_615": "615",
+        "label_615": "Alla avg. linje 615",
         "footer": stop_name,
     }
     for i, dep in enumerate(combined, 1):
@@ -198,6 +205,8 @@ def main() -> None:
                         help="Skriv ut JSON utan att publicera till MQTT")
     parser.add_argument("--find-stop", metavar="NAMN",
                         help="Sök ResRobot extId för en hållplats och avsluta")
+    parser.add_argument("--debug", action="store_true",
+                        help="Skriv ut rådata för första avgången (felsökning)")
     args = parser.parse_args()
 
     config = load_config(args.config)
@@ -220,11 +229,17 @@ def main() -> None:
         sys.exit(1)
 
     stop_name = bus_cfg.get("stop_name", "Hållplats")
-    lines = [str(l) for l in bus_cfg.get("lines", ["605", "609", "610"])]
+    lines = [str(l) for l in bus_cfg.get("lines", ["605", "609", "615"])]
 
     print(f"Hämtar avgångar från hållplats {stop_id} ({stop_name})...")
     all_deps = fetch_departures(api_key, stop_id)
     print(f"Hittade {len(all_deps)} avgångar totalt.")
+
+    if args.debug and all_deps:
+        print("\nRådata (första avgången):")
+        print(json.dumps(all_deps[0], ensure_ascii=False, indent=2))
+        print(f"\nLinjenummer detekterat: '{_line_of(all_deps[0])}'")
+        print()
 
     now = datetime.now()
     deps_by_line = {}
