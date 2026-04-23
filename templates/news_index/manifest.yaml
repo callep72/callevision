@@ -1,5 +1,5 @@
 name: news_index
-description: News index page with timestamp and up to six headlines
+description: News index page with timestamp and up to ten headlines
 fields:
   title:
     type: string
@@ -58,6 +58,38 @@ fields:
     max_length: 3
     required: false
   lead_6_headline:
+    type: string
+    max_length: 34
+    required: false
+  lead_7_page:
+    type: string
+    max_length: 3
+    required: false
+  lead_7_headline:
+    type: string
+    max_length: 34
+    required: false
+  lead_8_page:
+    type: string
+    max_length: 3
+    required: false
+  lead_8_headline:
+    type: string
+    max_length: 34
+    required: false
+  lead_9_page:
+    type: string
+    max_length: 3
+    required: false
+  lead_9_headline:
+    type: string
+    max_length: 34
+    required: false
+  lead_10_page:
+    type: string
+    max_length: 3
+    required: false
+  lead_10_headline:
     type: string
     max_length: 34
     required: false
